@@ -17,7 +17,6 @@ public class ReverseWords {
 			result = result + word + " ";
 		}
 		System.out.println("result= >" + result.trim() + "<");
-		
 	}
 
 }
