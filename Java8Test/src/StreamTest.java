@@ -24,15 +24,15 @@ public class StreamTest {
     stringcollection.add("dddi");
 
     // stream matching 
-    boolean anystartswitha = stringcollection.stream().anyMatch((s) -> s.startsWith("a")); 
+    boolean anystartswitha = stringcollection.stream().anyMatch(s -> s.startsWith("a")); 
     System.out.println("anyMatch - do any begin with 'a' - " + anystartswitha); // true 
-    boolean allstartswitha = stringcollection.stream().allMatch((s) -> s.startsWith("a")); 
+    boolean allstartswitha = stringcollection.stream().allMatch(s -> s.startsWith("a")); 
     System.out.println("allMatch - do all begin with 'a' - " + allstartswitha); // false 
     System.out.println("noneMatch - do none start with 'z' - " 
         + stringcollection.stream().noneMatch((s) -> s.startsWith("z"))); // true 
     
     // counting 
-    long startswithB = stringcollection.stream().filter((s) -> s.startsWith("b")).count();
+    long startswithB = stringcollection.stream().filter(s -> s.startsWith("b")).count();
     System.out.println("filter then count - starting with 'b' - " + startswithB); // 3 
 
     // reducing 
@@ -88,13 +88,9 @@ public class StreamTest {
     Stream.of("d2", "a2", "b1").sorted((s1, s2) -> { 
         System.out.printf("sorted: %s; %s - even b1 when it will be filtered out in next operation\n", s1, s2); 
         return s1.compareTo(s2);
-    }).filter(s -> {
-        // system. out.println("filter: " + s. 
-        return s.startsWith("a"); 
-    }).map(s -> {
-        // System.out.println("map: " + s);
-        return s.toUpperCase(); 
-    }).forEach(s -> System.out.println("forEach now only has a2 : " + s));
+    }).filter(s -> s.startsWith("a") 
+    ).map(s -> s.toUpperCase() 
+    ).forEach(s -> System.out.println("forEach now only has a2 : " + s));
 
     System.out.println();
     System.out.println("Cannot reuse streams after terminal operation");

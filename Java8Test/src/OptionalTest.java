@@ -9,7 +9,8 @@ public class OptionalTest {
         optional.get(); // bam
         optional.orElse("fallback"); // bam
 
-        // best pracitce to use ifPresent(Consumer) as not doing a null check
+        // best practice to use ifPresent(Consumer) as not doing a null check
+        System.out.println("optional value is 'bam'");
         optional.ifPresent((s) -> System.out.println("character at index 0 - ifPresent so dont need to do null check - " + s.charAt(0))); // b
         Optional<String> a = Optional.of("test");
         if (a.isPresent()) {
@@ -17,7 +18,7 @@ public class OptionalTest {
         }
         a.ifPresent(System.out::println);
 
-        String c = getTheOptionalStringEmpty().orElse("used this instead");
+        String c = getTheOptionalStringEmpty().orElse("used this instead as method returns empty optional");
         System.out.println(c);
 
         //Optional should be used as return value of functions that might return not return a value
@@ -37,12 +38,13 @@ public class OptionalTest {
         // this one will return an optional of empty if input null or an optional of the uppercase input value
         Function<String, Optional<String>> upperCaseOptionalString = s -> (s == null ) ? Optional.empty() : Optional.of(s.toUpperCase());
         Optional<String> word = Optional.of("apple");
+        System.out.println("word.get() - " + word.get());
         // using new function on 'word' results in an option within an option
         Optional<Optional<String>> optionalOfOptional = word.map(upperCaseOptionalString);
-        // easily get the optional with the optional using flatmap
-        Optional<String> optionalFromFlatmap = word.flatMap(upperCaseOptionalString);
-        System.out.println("get the optional within the optional using flatmap " + optionalFromFlatmap.get());
-        System.out.println("get the optional within the optional by chainging get() methods " + optionalOfOptional.get().get());
+        // easily get the optional within the optional using flatmap - drill down to the lower optional and map to string
+        Optional<Object> stringFromFlatmap = optionalOfOptional.flatMap(s -> s.map(String::toUpperCase));
+        System.out.println("get the optional within the optional using flatmap " + stringFromFlatmap.get());
+        System.out.println("get the optional within the optional by changing get() methods " + optionalOfOptional.get().get());
 
         // filtering optional
         Optional<Integer> numberOptional = Optional.of(10);
